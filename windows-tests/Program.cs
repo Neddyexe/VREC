@@ -57,6 +57,7 @@ internal static class Program
                     Check(ct.IsCancellationRequested);
                     return Task.CompletedTask;
                 });
+                await Task.Delay(50); // Let the owner finish its pending modal close.
                 Check(!owner.Visible);
             });
             return 0;
@@ -96,8 +97,8 @@ internal static class Program
         Check(finished);
         Console.WriteLine($"PASS {name}");
     }
-    private static void Check(bool condition)
+    private static void Check(bool condition, [System.Runtime.CompilerServices.CallerArgumentExpression("condition")] string? expression = null)
     {
-        if (!condition) throw new Exception("Lifecycle assertion failed");
+        if (!condition) throw new Exception($"Lifecycle assertion failed: {expression}");
     }
 }
