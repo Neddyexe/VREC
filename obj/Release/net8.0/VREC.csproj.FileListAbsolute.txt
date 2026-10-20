@@ -1,0 +1,14 @@
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\bin\Release\net8.0\VREC.exe
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\bin\Release\net8.0\VREC.deps.json
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\bin\Release\net8.0\VREC.runtimeconfig.json
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\bin\Release\net8.0\VREC.dll
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\bin\Release\net8.0\VREC.pdb
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\VREC.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\VREC.AssemblyInfoInputs.cache
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\VREC.AssemblyInfo.cs
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\VREC.csproj.CoreCompileInputs.cache
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\VREC.dll
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\refint\VREC.dll
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\VREC.pdb
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\VREC.genruntimeconfig.cache
+C:\Users\Ned\Downloads\VREC-QuickStart\VREC-QuickStart\obj\Release\net8.0\ref\VREC.dll
