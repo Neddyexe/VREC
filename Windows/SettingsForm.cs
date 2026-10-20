@@ -27,15 +27,38 @@ internal sealed class SettingsForm : Form
         var count = new Label { Text = $"{settings.Templates.Count} calibrated templates", AutoSize = true }; layout.Controls.Add(count);
         var capture = new Button { Text = "Capture template in 4 seconds", AutoSize = true }; layout.Controls.Add(capture);
         capture.Click += async (_, _) => {
-            var state = (MatchState)states.SelectedItem!; Hide();
+            if (!capture.Enabled) return;
+            var state = (MatchState)states.SelectedItem!;
+            capture.Enabled = false;
             try {
-                await Task.Delay(4000); using var image = ScreenDetector.Capture();
-                if (image is null) { MessageBox.Show("Put VALORANT in the foreground during the countdown. Use borderless window mode."); return; }
-                using var calibration = new CalibrationForm(image, state);
-                if (calibration.ShowDialog() == DialogResult.OK) settings.Templates.Add(calibration.Result!);
-                count.Text = $"{settings.Templates.Count} calibrated templates";
-            } catch { MessageBox.Show("Screen capture failed. Try borderless window mode."); }
-            finally { Show(); }
+                await CalibrationWorkflow.RunAsync(this, async ct => {
+                    await Task.Delay(4000, ct);
+                    ct.ThrowIfCancellationRequested();
+                    using var image = ScreenDetector.Capture();
+                    if (image is null) {
+                        if (!ct.IsCancellationRequested && !IsDisposed && !Disposing)
+                            MessageBox.Show(this, "Put VALORANT in the foreground during the countdown. Use borderless window mode.");
+                        return;
+                    }
+                    ct.ThrowIfCancellationRequested();
+                    using var calibration = new CalibrationForm(image, state);
+                    using var cancel = ct.Register(() => {
+                        if (!calibration.IsDisposed) calibration.Close();
+                    });
+                    if (calibration.ShowDialog(this) == DialogResult.OK &&
+                        !ct.IsCancellationRequested && !IsDisposed && !Disposing) {
+                        settings.Templates.Add(calibration.Result!);
+                        count.Text = $"{settings.Templates.Count} calibrated templates";
+                    }
+                });
+            } catch (OperationCanceledException) {
+                // Closing Settings cancels capture; it must never reopen the form.
+            } catch {
+                if (!IsDisposed && !Disposing)
+                    MessageBox.Show(this, "Screen capture failed. Try borderless window mode.");
+            } finally {
+                if (!IsDisposed && !Disposing) capture.Enabled = true;
+            }
         };
         var clear = new Button { Text = "Clear all templates", AutoSize = true }; clear.Click += (_, _) => { settings.Templates.Clear(); count.Text = "0 calibrated templates"; }; layout.Controls.Add(clear);
         var save = new Button { Text = "Save settings", AutoSize = true }; layout.Controls.Add(save);
