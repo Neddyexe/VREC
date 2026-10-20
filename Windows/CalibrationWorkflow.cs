@@ -9,6 +9,7 @@ internal static class CalibrationWorkflow
         if (owner.IsDisposed || owner.Disposing) return;
         using var cancellation = new CancellationTokenSource();
         void Cancel(object? sender, EventArgs e) => cancellation.Cancel();
+        owner.FormClosing += Cancel;
         owner.FormClosed += Cancel;
         owner.Disposed += Cancel;
         double opacity = owner.Opacity;
@@ -17,9 +18,10 @@ internal static class CalibrationWorkflow
             await capture(cancellation.Token);
         }
         finally {
+            owner.FormClosing -= Cancel;
             owner.FormClosed -= Cancel;
             owner.Disposed -= Cancel;
-            if (!owner.IsDisposed && !owner.Disposing && !cancellation.IsCancellationRequested)
+            if (!owner.IsDisposed && !owner.Disposing)
                 owner.Opacity = opacity;
         }
     }
