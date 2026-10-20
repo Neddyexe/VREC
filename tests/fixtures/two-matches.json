@@ -1,0 +1,20 @@
+[
+ {"State":"GameMenu","Seconds":0},
+ {"State":"Matchmaking","Seconds":1},
+ {"State":"AgentSelect","Seconds":2},
+ {"State":"MatchLoading","Seconds":3},
+ {"State":"MatchActive","Seconds":4},
+ {"State":"MatchActive","Seconds":5},
+ {"State":"Unknown","Seconds":20},
+ {"State":"MatchActive","Seconds":1000},
+ {"State":"PostMatch","Seconds":1001},
+ {"State":"PostMatch","Seconds":1002},
+ {"State":"PostMatch","Seconds":1003},
+ {"State":"PostMatch","Seconds":1012},
+ {"State":"MatchActive","Seconds":1020},
+ {"State":"MatchActive","Seconds":1021},
+ {"State":"GameClosed","Seconds":1030},
+ {"State":"GameClosed","Seconds":1031},
+ {"State":"GameClosed","Seconds":1032},
+ {"State":"GameClosed","Seconds":1041}
+]

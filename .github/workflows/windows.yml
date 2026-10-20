@@ -1,0 +1,43 @@
+name: Windows build and simulations
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Test and package Windows x64
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+      - name: Test and publish self-contained application
+        shell: pwsh
+        run: ./scripts/Publish.ps1
+      - name: Upload downloadable Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: VREC-win-x64
+          path: |
+            artifacts/win-x64/**
+            !artifacts/win-x64/**/*.pdb
+          if-no-files-found: error
+          retention-days: 30
+      - name: Write download instructions
+        shell: pwsh
+        run: |
+          @'
+          ## Download VREC for Windows
+          Open this workflow run's **Summary**, scroll to **Artifacts**, and download **VREC-win-x64**.
+          GitHub downloads it as a ZIP. Extract the whole ZIP, then run `VREC.exe` or `Install.ps1`.
+          The package includes `README.md` (calibration), `docs/WINDOWS-TESTING.md`, and `docs/DETECTION.md`.
+          OBS recording quality is unchanged. Live match detection still requires calibration and Windows gameplay validation.
+          Artifacts are retained for 30 days; use **Run workflow** to generate a fresh package later.
+          '@ >> $env:GITHUB_STEP_SUMMARY
