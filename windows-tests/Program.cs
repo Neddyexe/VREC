@@ -65,13 +65,14 @@ internal static class Program
 
     private static void Run(string name, Func<Form, Task> test)
     {
+        Console.WriteLine($"RUN {name}");
         using var owner = new Form();
         Exception? failure = null;
         bool finished = false;
         using var watchdog = new System.Windows.Forms.Timer { Interval = 10000 };
         watchdog.Tick += (_, _) => {
-            failure = new TimeoutException(name);
-            owner.Close();
+            Console.Error.WriteLine($"TIMEOUT {name}");
+            Environment.Exit(1);
         };
         owner.Shown += async (_, _) => {
             try { await test(owner); }
